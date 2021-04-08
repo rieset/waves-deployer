@@ -1,0 +1,33 @@
+{
+  "name": "waves-contract-deployer",
+  "version": "1.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@waves/node-api-js": "^1.2.1-beta.1",
+    "@waves/waves-transactions": "4.1.8"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rieset/waves-contract-deployer.git"
+  },
+  "author": "Albert Iblyaminov (albert@iblyaminov.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rieset/waves-contract-deployer/issues"
+  },
+  "homepage": "https://github.com/rieset/waves-contract-deployer#readme"
+}

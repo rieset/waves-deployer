@@ -1,0 +1,10 @@
+# Configs
+.*
+!.github
+!.gitignore
+
+# LIbs
+/node_modules
+
+# Code
+/dist
