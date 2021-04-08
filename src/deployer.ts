@@ -8,6 +8,8 @@ import {
 import { libs, auth, transfer, setScript, broadcast, invokeScript } from '@waves/waves-transactions';
 import { create } from '@waves/node-api-js';
 import {TLong} from '@waves/node-api-js/es/interface';
+import * as fs from 'fs'
+import { resolve } from 'path'
 
 export class Deployer {
   private readonly node: string = 'https://nodes.wavesnodes.com';
@@ -26,7 +28,8 @@ export class Deployer {
       console.error('Contracts are not passed to the script')
     }
 
-    const contracts = await Promise.all(
+    console.log('First step');
+    return await Promise.all(
       // Get address for all contracts
       config.contracts.map(async (contract: DeployContractRawModel) => {
         const isNew = !contract.seed;
@@ -44,6 +47,7 @@ export class Deployer {
       })
     )
     .then(async (constracts: DeployContractModel[]) => {
+      console.log('Second step');
       // Get balances
       return Promise.all(constracts
       .filter(contract => !!contract.address)
@@ -56,6 +60,7 @@ export class Deployer {
       }))
     })
     .then(async (constracts: DeployContractModel[]) => {
+      console.log('Three step');
       // Get balances
       return Promise.all(constracts
       // .filter(contract => contract.balance >= contract.requestBalance)
@@ -68,6 +73,7 @@ export class Deployer {
       }))
     })
     .then(async (constracts: DeployContractModel[]) => {
+      console.log('Four step');
       // Get balances
       return Promise.all(constracts
           // .filter(contract => contract.balance >= contract.requestBalance)
@@ -81,12 +87,6 @@ export class Deployer {
     .catch((error) => {
       console.log('Error on flow: ', error.message);
     })
-
-    console.log('Contracts', contracts);
-  }
-
-  private async faucet (address: DeployAddress, depositSeed: DeploySeedPhrase) {
-
   }
 
   private async getAddress (seed: DeploySeedPhrase) {
@@ -131,10 +131,20 @@ export class Deployer {
   }
 
   private async convertScript (script: string) {
-    const scr = Buffer.from(script, 'base64')
+    const content: string = await new Promise(async(done) => {
+      fs.readFile(resolve(script), {encoding: 'utf-8'},
+(err,data) => {
+          if (err) {
+            console.error('File not exist error reading')
+            done('')
+          } else {
+            done(data);
+          }
+        })
+    });
 
     try {
-      return (await this.network.utils.fetchCompileCode(scr.toString('utf8')))?.script
+      return (await this.network.utils.fetchCompileCode(content))?.script
     } catch (error) {
       console.log('Couldn\'t transform the script into a compatible format. ', error.message)
     }
@@ -193,8 +203,6 @@ export class Deployer {
           fee: 900000,
           chainId: this.chainId
         }, seed)
-
-        console.log('TX', tx);
 
         await broadcast(tx, this.node)
         .then(async (data) => {

@@ -1,0 +1,36 @@
+name: Testing
+on: [push]
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    name: Testing action
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.4.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Deploy test contracts
+        id: deploy
+        uses: ./
+        with:
+          config: './.github/test/example.json'
+
+      - name: Output data
+        run: |
+          mkdir ./out
+          echo "${{ steps.deploy.outputs.contracts }}" >> ./out/contracts.json
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: contracts
+          path: ./out

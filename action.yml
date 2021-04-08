@@ -1,0 +1,13 @@
+name: 'waves-contract-deployer'
+description: 'Waves contract deployer'
+inputs:
+  config:
+    description: 'Configuration deploy files'
+    required: true
+  outputs:
+    contracts:
+      description: 'Contracts deployed data'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+

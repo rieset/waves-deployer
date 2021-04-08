@@ -1,0 +1,27 @@
+{
+  "node": "https://nodes-testnet.wavesnodes.com",
+  "chainId": "T",
+  "deposit": "turkey text manage morning raven stick between omit carry bounce display sister race near clock",
+  "contracts": [
+    {
+      "requestBalance": 10000000,
+      "script": "./.github/test/contract.ride",
+      "init": {
+        "addDAOMember": [{
+          "type": "string",
+          "value": "3N62vcXd5rJBP3rzc6PT6nscc8v67MAkBvy"
+        }]
+      }
+    },
+    {
+      "requestBalance": 10000000,
+      "script": "./.github/test/contract.ride",
+      "init": {
+        "addGroupMember": [{
+          "type": "string",
+          "value": "3N62vcXd5rJBP3rzc6PT6nscc8v67MAkBvy"
+        }]
+      }
+    }
+  ]
+}

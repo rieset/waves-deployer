@@ -3,10 +3,12 @@
   "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
+  "bin": "./dist/index.js",
   "files": [
     "dist"
   ],
   "dependencies": {
+    "@actions/core": "^1.1.0",
     "@waves/node-api-js": "^1.2.1-beta.1",
     "@waves/waves-transactions": "4.1.8"
   },
