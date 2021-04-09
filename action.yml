@@ -9,5 +9,5 @@ inputs:
       description: 'Contracts deployed data'
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'dist/action.js'
 

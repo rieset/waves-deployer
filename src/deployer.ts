@@ -28,7 +28,6 @@ export class Deployer {
       console.error('Contracts are not passed to the script')
     }
 
-    console.log('First step');
     return await Promise.all(
       // Get address for all contracts
       config.contracts.map(async (contract: DeployContractRawModel) => {
@@ -47,7 +46,6 @@ export class Deployer {
       })
     )
     .then(async (constracts: DeployContractModel[]) => {
-      console.log('Second step');
       // Get balances
       return Promise.all(constracts
       .filter(contract => !!contract.address)
@@ -60,7 +58,6 @@ export class Deployer {
       }))
     })
     .then(async (constracts: DeployContractModel[]) => {
-      console.log('Three step');
       // Get balances
       return Promise.all(constracts
       // .filter(contract => contract.balance >= contract.requestBalance)
@@ -68,12 +65,12 @@ export class Deployer {
         return {
           ...contract,
           status: await this.deployContract(contract),
-          script: '...'
+          script: '...',
+          seed: contract.isNew ? contract.seed : contract.seed.substr(0, 7)
         }
       }))
     })
     .then(async (constracts: DeployContractModel[]) => {
-      console.log('Four step');
       // Get balances
       return Promise.all(constracts
           // .filter(contract => contract.balance >= contract.requestBalance)

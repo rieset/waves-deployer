@@ -2,20 +2,26 @@
   "name": "waves-contract-deployer",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "bin": "./dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./index.d.ts",
+  "module": "./dist/index.js",
+  "bin": {
+    "waves-contract-deployer": "./cli.js"
+  },
   "files": [
-    "dist"
+    "dist/"
   ],
   "dependencies": {
     "@actions/core": "^1.1.0",
     "@waves/node-api-js": "^1.2.1-beta.1",
-    "@waves/waves-transactions": "4.1.8"
+    "@waves/waves-transactions": "4.1.8",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "ts-node": "^9.1.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "typings": "^2.1.1"
   },
   "scripts": {
     "build": "tsc",
