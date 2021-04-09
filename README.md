@@ -47,18 +47,21 @@ This package helps to deploy smart contracts to the blockchain Waves
 
 ## Use in Github Action
 ```
-  // Checkout repo with action
-  - name: Checkout
-    uses: actions/checkout@v2
-    with:
-      repository: rieset/waves-contract-deployer
-      ref: action
-      path: waves-deployer
+- name: Waves deployer
+  uses: rieset/waves-deployer@v.1.0.0.action.alpha
+  id: deploy
+  with:
+    config: './contrcat-config.json'
 
-  // Use action
-  - name: Deploy test contracts
-    id: deploy
-    uses: ./waves-deployer
+// Optional. Output data
+- name: Output data
+  run: |
+    echo "${{ steps.deploy.outputs.contracts }}" >> ./contracts.json
+   
+// Save output data as artifact after deploy    
+- uses: actions/upload-artifact@v2
     with:
-      config: './contrcat-config.json'
+      name: contracts
+      path: ./contracts.json  
+
 ```
