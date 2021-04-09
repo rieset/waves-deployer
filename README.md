@@ -51,17 +51,18 @@ This package helps to deploy smart contracts to the blockchain Waves
   uses: rieset/waves-deployer@v.1.0.0.action.alpha
   id: deploy
   with:
-    config: './contrcat-config.json'
+    config: './contracts-deploy-config.json'
 
-// Optional. Output data
+# Optional. Output data
 - name: Output data
   run: |
     echo "${{ steps.deploy.outputs.contracts }}" >> ./contracts.json
    
-// Save output data as artifact after deploy    
-- uses: actions/upload-artifact@v2
-    with:
-      name: contracts
-      path: ./contracts.json  
+# Save output data as artifact after deploy    
+- name: Artifacts
+  uses: actions/upload-artifact@v2
+  with:
+    name: contracts
+    path: ./contracts.json
 
 ```
