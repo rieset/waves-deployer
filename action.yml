@@ -1,13 +1,15 @@
-name: 'waves-contract-deployer'
-description: 'Waves contract deployer'
+name: 'Waves deployer'
+description: 'This action helps to deploy smart contracts to the blockchain Waves'
 inputs:
   config:
     description: 'Configuration deploy files'
     required: true
-  outputs:
-    contracts:
-      description: 'Contracts deployed data'
+outputs:
+  contracts:
+    description: 'Contracts deployed data'
+branding:
+  icon: 'align-justify'
+  color: 'blue'
 runs:
   using: 'node12'
   main: 'dist/action.js'
-

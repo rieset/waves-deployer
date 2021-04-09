@@ -1,6 +1,6 @@
 # Waves Contract Deployer
 
-This package helps you to deploy prepared contracts to the blockchain based on the prepared configuration file
+This package helps to deploy smart contracts to the blockchain Waves
 
 ## Configure
 
@@ -14,7 +14,7 @@ This package helps you to deploy prepared contracts to the blockchain based on t
   "contracts": [
     {
       // Required. The text of the contract in base64 encoding
-      "script": "base64 string",
+      "script": "path to contract file",
 
       // Optional. The amount that must be sent to the contract for it to work
       // 1400000 fee for contract deploy
@@ -34,7 +34,7 @@ This package helps you to deploy prepared contracts to the blockchain based on t
     },
     // ...
     {
-      "script": "base64 string"
+      "script": "path to contract file"
     }
   ]
 }
