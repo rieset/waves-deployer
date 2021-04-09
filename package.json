@@ -1,12 +1,12 @@
 {
-  "name": "waves-contract-deployer",
-  "version": "1.0.1",
+  "name": "waves-deployer",
+  "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
   "types": "./index.d.ts",
   "module": "./dist/index.js",
   "bin": {
-    "waves-contract-deployer": "./cli.js"
+    "waves-deployer": "./cli.js"
   },
   "files": [
     "dist/"
