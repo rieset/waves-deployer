@@ -40,9 +40,25 @@ This package helps you to deploy prepared contracts to the blockchain based on t
 }
 ```
 
-## Use
+## Use NPX
 ```
-uses: rieset/waves-contract-deploy@action
-with:
-  config: './config-deploy.json'
+    npx waves-deployer contract-config.json
+```
+
+## Use in Github Action
+```
+  // Checkout repo with action
+  - name: Checkout
+    uses: actions/checkout@v2
+    with:
+      repository: rieset/waves-contract-deployer
+      ref: action
+      path: waves-deployer
+
+  // Use action
+  - name: Deploy test contracts
+    id: deploy
+    uses: ./waves-deployer
+    with:
+      config: './contrcat-config.json'
 ```
