@@ -1,5 +1,5 @@
 import {
-  DeployAddress, DeployBalance,
+  DeployAddress, DeployAnchor, DeployBalance,
   DeployConfigModel, DeployContractInitScript,
   DeployContractModel,
   DeployContractRawModel,
@@ -15,6 +15,8 @@ export class Deployer {
   private readonly node: string = 'https://nodes.wavesnodes.com';
   private readonly chainId: 'W' | 'T' = 'W';
   private readonly network: ReturnType<typeof create>;
+
+  private anchors: [string, string][] = [];
 
   constructor(node, chainId) {
     this.chainId = chainId;
@@ -33,10 +35,15 @@ export class Deployer {
       config.contracts.map(async (contract: DeployContractRawModel) => {
         const isNew = !contract.seed;
         const seed = contract.seed || libs.crypto.randomSeed(15);
+        const address = await this.getAddress(seed);
+
+        if (contract.anchor) {
+          this.setAnchor(contract.anchor, address);
+        }
 
         return {
           ...contract,
-          address: await this.getAddress(seed),
+          address: address,
           seed: seed,
           balance: 0,
           requestBalance: contract.requestBalance || 10000000,
@@ -86,6 +93,10 @@ export class Deployer {
     .catch((error) => {
       console.log('Error on flow: ', error.message);
     })
+  }
+
+  private setAnchor(key, value) {
+    this.anchors.push([key, value]);
   }
 
   private async checkDeposit(contracts, seed) {
@@ -146,7 +157,7 @@ export class Deployer {
   }
 
   private async convertScript (script: string) {
-    const content: string = await new Promise(async(done) => {
+    let content: string = await new Promise(async(done) => {
       fs.readFile(resolve(script), {encoding: 'utf-8'},
 (err,data) => {
           if (err) {
@@ -157,6 +168,11 @@ export class Deployer {
           }
         })
     });
+
+    // Replace anchors on contracts
+    this.anchors.forEach(([anchor, value]) => {
+      content = content.replace('${' + anchor + '}', value);
+    })
 
     try {
       return (await this.network.utils.fetchCompileCode(content))?.script

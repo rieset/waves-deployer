@@ -1,5 +1,6 @@
 export type DeploySeedPhrase = string;
 export type DeployBase64String = string;
+export type DeployAnchor = string;
 export type DeployAddress = string | null;
 export type DeployBalance = number;
 export type DeployChainId = 'W' | 'T';
@@ -18,6 +19,7 @@ export interface DeployContractRawModel {
   balance?: DeployBalance
   requestBalance?: DeployBalance
   init?: DeployContractInitScript
+  anchor?: DeployAnchor
 }
 
 export interface DeployContractModel {
