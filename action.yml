@@ -7,9 +7,13 @@ inputs:
 outputs:
   contracts:
     description: 'Contracts deployed data'
+    value: ${{ steps.deployed-contracts.outputs.contracts }}
 branding:
   icon: 'align-justify'
   color: 'blue'
 runs:
-  using: 'node12'
-  main: 'dist/action.js'
+  using: composite
+  steps:
+    - run: npm install && npm build && node ./dist/action.js
+      id: deployed-contracts
+      shell: bash
