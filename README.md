@@ -16,6 +16,9 @@ This package helps to deploy smart contracts to the blockchain Waves
       // Required. The text of the contract in base64 encoding
       "script": "path to contract file",
 
+      // Optional. Use in other contracts like ENV vaariable ${MAIN_CONTRACT_ADDRESS}
+      "anchor": "MAIN_CONTRACT_ADDRESS"
+
       // Optional. The amount that must be sent to the contract for it to work
       // 1400000 fee for contract deploy
       // >= 900000 per transaction
