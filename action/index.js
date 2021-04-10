@@ -114,11 +114,13 @@ class Deployer {
             }))
                 .catch((error) => {
                 console.log('Error on flow: ', error.message);
+                throw new Error(error.message);
             });
         });
     }
     setAnchor(key, value) {
         this.anchors.push([key, value]);
+        process.env[key] = value;
     }
     checkDeposit(contracts, seed) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -47519,7 +47521,7 @@ common_1.deploy(config).then((contracts) => {
     if (!contracts) {
         throw new Error('Action complete with error');
     }
-    core.setOutput("contracts", JSON.stringify(contracts, null, '\n'));
+    core.setOutput("contracts", contracts);
 }).catch((error) => {
     throw new Error('Unexpected error: \n' + error.message);
 });

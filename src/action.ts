@@ -8,7 +8,7 @@ deploy(config).then((contracts) => {
     throw new Error('Action complete with error');
   }
 
-  core.setOutput("contracts", JSON.stringify(contracts, null, '\n'));
+  core.setOutput("contracts", contracts);
 }).catch((error) => {
   throw new Error('Unexpected error: \n' + error.message);
 })

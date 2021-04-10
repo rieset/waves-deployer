@@ -1,5 +1,5 @@
 import {
-  DeployAddress, DeployAnchor, DeployBalance,
+  DeployAddress, DeployBalance,
   DeployConfigModel, DeployContractInitScript,
   DeployContractModel,
   DeployContractRawModel,
@@ -92,11 +92,13 @@ export class Deployer {
     })
     .catch((error) => {
       console.log('Error on flow: ', error.message);
+      throw new Error(error.message);
     })
   }
 
   private setAnchor(key, value) {
     this.anchors.push([key, value]);
+    process.env[key] = value;
   }
 
   private async checkDeposit(contracts, seed) {
@@ -134,10 +136,10 @@ export class Deployer {
     if (balance < request) {
       try {
         const tx = transfer({
-              recipient: address!,
-              amount: (BigInt(request) - BigInt(balance.toString())).toString(),
-              fee: isNew ? 500000 : 900000
-            }, deposit
+            recipient: address!,
+            amount: (BigInt(request) - BigInt(balance.toString())).toString(),
+            fee: isNew ? 500000 : 900000
+          }, deposit
         )
 
         await broadcast({

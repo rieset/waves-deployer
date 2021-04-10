@@ -3,7 +3,7 @@
 {-# SCRIPT_TYPE ACCOUNT #-}
 
 # HERE TO SET MEMBERSHIP SMART CONTRACT ADDRESS
-let mainContract = "${MEMBERSHIP_CONTRACT_ADDRESS}"
+let mainContract = addressFromStringValue("${MEMBERSHIP_CONTRACT_ADDRESS}")
 
 func tryGetInteger(key: String) = {
     let val = match getInteger(this, key) {

@@ -12,5 +12,4 @@ branding:
   color: 'blue'
 runs:
   using: 'node12'
-  pre: 'npm install && npm build'
   main: 'action/index.js'
