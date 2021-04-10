@@ -4,8 +4,9 @@
   "deposit": "turkey text manage morning raven stick between omit carry bounce display sister race near clock",
   "contracts": [
     {
+      "anchor": "MEMBERSHIP_CONTRACT_ADDRESS",
       "requestBalance": 10000000,
-      "script": "./.github/test/contract.ride",
+      "script": "./.github/test/main.ride",
       "init": {
         "addDAOMember": [{
           "type": "string",
@@ -15,7 +16,7 @@
     },
     {
       "requestBalance": 10000000,
-      "script": "./.github/test/contract.ride",
+      "script": "./.github/test/second.ride",
       "init": {
         "addGroupMember": [{
           "type": "string",

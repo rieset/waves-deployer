@@ -1,5 +1,5 @@
 import {
-  DeployAddress, DeployBalance,
+  DeployAddress, DeployAnchor, DeployBalance,
   DeployConfigModel, DeployContractInitScript,
   DeployContractModel,
   DeployContractRawModel,
@@ -15,6 +15,8 @@ export class Deployer {
   private readonly node: string = 'https://nodes.wavesnodes.com';
   private readonly chainId: 'W' | 'T' = 'W';
   private readonly network: ReturnType<typeof create>;
+
+  private anchors: [string, string][] = [];
 
   constructor(node, chainId) {
     this.chainId = chainId;
@@ -33,10 +35,15 @@ export class Deployer {
       config.contracts.map(async (contract: DeployContractRawModel) => {
         const isNew = !contract.seed;
         const seed = contract.seed || libs.crypto.randomSeed(15);
+        const address = await this.getAddress(seed);
+
+        if (contract.anchor) {
+          this.setAnchor(contract.anchor, address);
+        }
 
         return {
           ...contract,
-          address: await this.getAddress(seed),
+          address: address,
           seed: seed,
           balance: 0,
           requestBalance: contract.requestBalance || 10000000,
@@ -46,13 +53,15 @@ export class Deployer {
       })
     )
     .then(async (constracts: DeployContractModel[]) => {
+      await this.checkDeposit(constracts, config.deposit);
+
       // Get balances
       return Promise.all(constracts
       .filter(contract => !!contract.address)
       .map(async (contract) => {
         return {
           ...contract,
-          balance: await this.getBalance(contract.address, config.deposit, contract.requestBalance, contract.isNew),
+          balance: await this.refillBalance(contract.address, config.deposit, contract.requestBalance, contract.isNew),
           script: await this.convertScript(contract.script)
         }
       }))
@@ -86,6 +95,22 @@ export class Deployer {
     })
   }
 
+  private setAnchor(key, value) {
+    this.anchors.push([key, value]);
+  }
+
+  private async checkDeposit(contracts, seed) {
+    const request = contracts.reduce((origin, contract) => origin + contract.requestBalance, 0)
+
+    const address = await this.getAddress(seed);
+    const balance = await this.getBalance(address);
+
+    if (request > balance) {
+      console.error(`Deploy request ${request} Waves. But balance deposit is ${balance} Waves. Need a refill deposit account`)
+      throw new Error('Insufficient funds on deposit');
+    }
+  }
+
   private async getAddress (seed: DeploySeedPhrase) {
     return auth({
       data: '',
@@ -93,11 +118,15 @@ export class Deployer {
     }, seed, this.chainId)?.address || null
   }
 
-  private async getBalance (address: DeployAddress | undefined, deposit: DeploySeedPhrase, request: DeployBalance, isNew: boolean) {
+  private async getBalance (address: DeployAddress | undefined): Promise<TLong> {
+    return !address ? 0 : ((await this.network.addresses.fetchBalance(address))?.balance || 0);
+  }
+
+  private async refillBalance (address: DeployAddress | undefined, deposit: DeploySeedPhrase, request: DeployBalance, isNew: boolean) {
     let balance: TLong = 0;
 
     try {
-      balance = !address ? 0 : ((await this.network.addresses.fetchBalance(address))?.balance || 0);
+      balance = await this.getBalance(address)
     } catch (error) {
       console.log('Error after we get a balance ', error.message);
     }
@@ -111,7 +140,7 @@ export class Deployer {
             }, deposit
         )
 
-        const waitingTx = await broadcast({
+        await broadcast({
           ...tx
         }, this.node)
         .then(async (data) => {
@@ -120,7 +149,7 @@ export class Deployer {
 
         balance = request;
       } catch (error) {
-        console.log('Error after trying to replenish the purses of future contracts ', error.message);
+        console.log('Error after trying to refill the purses of future contracts ', error.message);
       }
     }
 
@@ -128,7 +157,7 @@ export class Deployer {
   }
 
   private async convertScript (script: string) {
-    const content: string = await new Promise(async(done) => {
+    let content: string = await new Promise(async(done) => {
       fs.readFile(resolve(script), {encoding: 'utf-8'},
 (err,data) => {
           if (err) {
@@ -139,6 +168,11 @@ export class Deployer {
           }
         })
     });
+
+    // Replace anchors on contracts
+    this.anchors.forEach(([anchor, value]) => {
+      content = content.replace('${' + anchor + '}', value);
+    })
 
     try {
       return (await this.network.utils.fetchCompileCode(content))?.script
