@@ -21,7 +21,7 @@ if (argv._.length) {
 
 function process(value) {
   const module = require('./dist/index');
-  module.deploy(value, true).then((data) => {
-    console.log('Contracts', data)
+  module.deploy(value).then((data) => {
+    console.log(data)
   })
 }
