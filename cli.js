@@ -20,7 +20,8 @@ if (argv._.length) {
 }
 
 function process(value) {
-  const module = require('./dist/index');
+  const module = require('./dist/common.js');
+
   module.deploy(value).then((data) => {
     console.log(data)
   })

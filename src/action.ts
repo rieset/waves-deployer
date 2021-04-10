@@ -1,4 +1,4 @@
-import { deploy } from './index';
+import { deploy } from './common';
 const core = require('@actions/core');
 
 const config = core.getInput('config');
@@ -12,3 +12,4 @@ deploy(config).then((contracts) => {
 }).catch((error) => {
   throw new Error('Unexpected error: \n' + error.message);
 })
+

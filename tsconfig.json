@@ -2,13 +2,14 @@
   "compilerOptions": {
     "declaration": true,
     "strictNullChecks": true,
-    "target": "es5",
-    "outDir": "dist",
+    "target": "es2015",
+    "outDir": "./dist",
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "rootDir": "src",
-    "strict": false
+    "strict": false,
+    "resolveJsonModule": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

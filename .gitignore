@@ -3,5 +3,8 @@
 !.github
 !.gitignore
 
-# LIbs
+# Libs
 node_modules
+
+# Build
+dist

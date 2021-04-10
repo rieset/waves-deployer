@@ -1,4 +1,4 @@
-import { deploy } from './index';
+import { deploy } from './common';
 
 const [ node, script, config ] = process.argv
 deploy(config)
