@@ -36,5 +36,6 @@
   "bugs": {
     "url": "https://github.com/rieset/waves-contract-deployer/issues"
   },
-  "homepage": "https://github.com/rieset/waves-contract-deployer#readme"
+  "homepage": "https://github.com/rieset/waves-contract-deployer#readme",
+  "keywords": ["blockchain", "waves", "smart contracts", "deploy", "ci"]
 }
