@@ -29,5 +29,3 @@ export const deploy = async (config, silly: boolean = false): Promise<any> => {
   
   return false;
 }
-
-
