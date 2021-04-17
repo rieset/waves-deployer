@@ -48,7 +48,7 @@ This package helps to deploy smart contracts to the blockchain Waves
     npx waves-deployer contract-config.json
 ```
 
-## Use in Github Action
+## Use in Github Action (Only for development environment and testing)
 ```
 - name: Waves deployer
   uses: rieset/waves-deployer@v.1.1.0
