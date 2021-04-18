@@ -14,12 +14,12 @@ Use config file for deploy
 const argv = yargs.argv;
 
 if (argv._.length) {
-  process(argv._[0]);
+  processing(argv._[0]);
 } else {
   throw new Error('Config file is not define')
 }
 
-function process(value) {
+function processing(value) {
   const module = require('./dist/common.js');
 
   module.deploy(value).then((data) => {

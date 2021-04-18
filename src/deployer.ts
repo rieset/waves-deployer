@@ -10,6 +10,7 @@ import { create } from '@waves/node-api-js';
 import {TLong} from '@waves/node-api-js/es/interface';
 import * as fs from 'fs'
 import { resolve } from 'path'
+import { env } from 'process'
 
 export class Deployer {
   private readonly node: string = 'https://nodes.wavesnodes.com';
@@ -24,7 +25,7 @@ export class Deployer {
     this.network = create(this.node);
   }
 
-  public async process(config: DeployConfigModel) {
+  public async processing(config: DeployConfigModel) {
 
     if (!config.contracts || !config.contracts.length) {
       console.error('Contracts are not passed to the script')
@@ -98,7 +99,7 @@ export class Deployer {
 
   private setAnchor(key, value) {
     this.anchors.push([key, value]);
-    process.env[key] = value;
+    env[key] = value;
   }
 
   private async checkDeposit(contracts, seed) {

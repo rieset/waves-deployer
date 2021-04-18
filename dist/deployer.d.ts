@@ -5,7 +5,7 @@ export declare class Deployer {
     private readonly network;
     private anchors;
     constructor(node: any, chainId: any);
-    process(config: DeployConfigModel): Promise<{
+    processing(config: DeployConfigModel): Promise<{
         inited: boolean | (true | undefined)[];
         script: string;
         seed: string;

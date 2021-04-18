@@ -9,7 +9,11 @@
     "sourceMap": false,
     "rootDir": "src",
     "strict": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "lib": [
+      "es2020",
+      "dom"
+    ]
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

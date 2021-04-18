@@ -29,7 +29,7 @@ const deploy = (config) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const configContent = require(pathToConfig);
             const deployer = new deployer_1.Deployer(configContent.node, configContent.chainId);
-            return yield deployer.process(configContent);
+            return yield deployer.processing(configContent);
         }
         catch (e) {
             console.error('Config is not exist or invalid format: \n', e.message, '\n');
@@ -62,6 +62,7 @@ const waves_transactions_1 = __nccwpck_require__(473);
 const node_api_js_1 = __nccwpck_require__(4770);
 const fs = __nccwpck_require__(5747);
 const path_1 = __nccwpck_require__(5622);
+const process_1 = __nccwpck_require__(1765);
 class Deployer {
     constructor(node, chainId) {
         this.node = 'https://nodes.wavesnodes.com';
@@ -71,7 +72,7 @@ class Deployer {
         this.node = node;
         this.network = node_api_js_1.create(this.node);
     }
-    process(config) {
+    processing(config) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!config.contracts || !config.contracts.length) {
                 console.error('Contracts are not passed to the script');
@@ -120,7 +121,7 @@ class Deployer {
     }
     setAnchor(key, value) {
         this.anchors.push([key, value]);
-        process.env[key] = value;
+        process_1.env[key] = value;
     }
     checkDeposit(contracts, seed) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -47444,6 +47445,14 @@ module.exports = require("os");;
 
 "use strict";
 module.exports = require("path");;
+
+/***/ }),
+
+/***/ 1765:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("process");;
 
 /***/ }),
 

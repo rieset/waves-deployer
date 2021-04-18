@@ -14,7 +14,7 @@ export const deploy = async (config): Promise<any> => {
       const configContent = require(pathToConfig);
       const deployer = new Deployer(configContent.node, configContent.chainId);
 
-      return await deployer.process(configContent)
+      return await deployer.processing(configContent)
     } catch (e) {
       console.error('Config is not exist or invalid format: \n', e.message, '\n')
     }

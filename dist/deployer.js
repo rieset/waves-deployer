@@ -14,6 +14,7 @@ const waves_transactions_1 = require("@waves/waves-transactions");
 const node_api_js_1 = require("@waves/node-api-js");
 const fs = require("fs");
 const path_1 = require("path");
+const process_1 = require("process");
 class Deployer {
     constructor(node, chainId) {
         this.node = 'https://nodes.wavesnodes.com';
@@ -23,7 +24,7 @@ class Deployer {
         this.node = node;
         this.network = node_api_js_1.create(this.node);
     }
-    process(config) {
+    processing(config) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!config.contracts || !config.contracts.length) {
                 console.error('Contracts are not passed to the script');
@@ -72,7 +73,7 @@ class Deployer {
     }
     setAnchor(key, value) {
         this.anchors.push([key, value]);
-        process.env[key] = value;
+        process_1.env[key] = value;
     }
     checkDeposit(contracts, seed) {
         return __awaiter(this, void 0, void 0, function* () {

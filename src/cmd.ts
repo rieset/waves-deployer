@@ -1,6 +1,7 @@
 import { deploy } from './common';
+import { argv } from 'process'
 
-const [ node, script, config ] = process.argv
+const [ node, script, config ] = argv
 deploy(config)
 .then((contracts) => {
   console.log(contracts)
