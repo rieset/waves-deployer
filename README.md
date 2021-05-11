@@ -13,7 +13,7 @@ This package helps to deploy smart contracts to the blockchain Waves
   "deposit": "seed phrase", 
   "contracts": [
     {
-      // Required. The text of the contract in base64 encoding
+      // Required. path to local file
       "script": "path to contract file",
 
       // Optional. Use in other contracts like ENV vaariable ${MAIN_CONTRACT_ADDRESS}
